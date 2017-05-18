@@ -33,9 +33,9 @@ please contact mla_licensing@microchip.com
 
 // CONFIG2L
 #pragma config PWRT = OFF       // Power-up Timer Enable bit (PWRT disabled)
-#pragma config BOR = ON         // Brown-out Reset Enable bits (Brown-out Reset enabled in hardware only (SBOREN is disabled))
+#pragma config BOR = OFF         // Brown-out Reset Enable bits (Brown-out Reset enabled in hardware only (SBOREN is disabled))
 #pragma config BORV = 3         // Brown-out Reset Voltage bits (Minimum setting)
-#pragma config VREGEN = OFF     // USB Voltage Regulator Enable bit (USB voltage regulator disabled)
+#pragma config VREGEN = ON     // USB Voltage Regulator Enable bit (USB voltage regulator disabled)
 
 // CONFIG2H
 #pragma config WDT = OFF        // Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDTEN bit))
@@ -44,14 +44,14 @@ please contact mla_licensing@microchip.com
 // CONFIG3H
 #pragma config CCP2MX = ON      // CCP2 MUX bit (CCP2 input/output is multiplexed with RC1)
 #pragma config PBADEN = OFF     // PORTB A/D Enable bit (PORTB<4:0> pins are configured as digital I/O on Reset)
-#pragma config LPT1OSC = ON     // Low-Power Timer 1 Oscillator Enable bit (Timer1 configured for low-power operation)
-#pragma config MCLRE = OFF      // MCLR Pin Enable bit (RE3 input pin enabled; MCLR pin disabled)
+#pragma config LPT1OSC = OFF    // Low-Power Timer 1 Oscillator Enable bit (Timer1 configured for low-power operation)
+#pragma config MCLRE = ON       // 
 
 // CONFIG4L
 #pragma config STVREN = OFF     // Stack Full/Underflow Reset Enable bit (Stack full/underflow will not cause Reset)
 #pragma config LVP = ON         // Single-Supply ICSP Enable bit (Single-Supply ICSP enabled)
 #ifndef __XC8
-#pragma config XINST = ON       // Extended Instruction Set Enable bit (Instruction set extension and Indexed Addressing mode enabled)
+#pragma config XINST = OFF       // Extended Instruction Set Enable bit (Instruction set extension and Indexed Addressing mode enabled)
 #endif
 // CONFIG5L
 #pragma config CP0 = OFF        // Code Protection bit (Block 0 (000800-001FFFh) is not code-protected)
