@@ -51,6 +51,8 @@
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>src/app/jamma_buttons.c</itemPath>
+    <itemPath>src/app/jamma_buttons.h</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>src/bsp</Elem>

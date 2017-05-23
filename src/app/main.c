@@ -25,7 +25,7 @@ please contact mla_licensing@microchip.com
 
 #include "app_device_joystick.h"
 #include "app_led_usb_status.h"
-
+#include "jamma_buttons.h"
 
 
 MAIN_RETURN main(void)
@@ -75,6 +75,7 @@ MAIN_RETURN main(void)
         }
 
         //Application specific tasks
+            jammaTask();
         APP_DeviceJoystickTasks();
 
     }//end while

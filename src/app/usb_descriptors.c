@@ -244,52 +244,52 @@ const struct{uint8_t report[HID_RPT01_SIZE];}hid_rpt01={{
   0x05, 0x01,//USAGE_PAGE (Generic Desktop)
   0x09, 0x05,//USAGE (Game Pad)
   0xA1, 0x01,//COLLECTION (Application)
-  0xA1, 0x00,//    COLLECTION (Physical)
-  0x85, 0x01,//        REPORT_ID (1)
-  0x05, 0x09,//        USAGE_PAGE (Button)
-  0x19, 0x01,//  USAGE_MINIMUM(Button 1)
-  0x29, 0x10,//  USAGE_MAXIMUM(Button 16)
-  0x15, 0x00,//  LOGICAL_MINIMUM(0)
-  0x25, 0x01,//  LOGICAL_MAXIMUM(1)
-  0x95, 0x10,//  REPORT_COUNT(16)
-  0x75, 0x01,//  REPORT_SIZE(1)
-  0x81, 0x02,//  INPUT(Data,Var,Abs)
-  0xC0,      //    END COLLECTION
+  0xA1, 0x00,//  COLLECTION (Physical)
+  0x85, 0x01,//    Report ID (1)
+  0x05, 0x09,//    USAGE_PAGE (Button)
+  0x19, 0x01,//    USAGE_MINIMUM(Button 1)
+  0x29, 0x30,//    USAGE_MAXIMUM(Button 16)
+  0x15, 0x00,//    LOGICAL_MINIMUM(0)
+  0x25, 0x01,//    LOGICAL_MAXIMUM(1)
+  0x95, 0x10,//    REPORT_COUNT(16)
+  0x75, 0x01,//    REPORT_SIZE(1)
+  0x81, 0x02,//    INPUT(Data,Var,Abs)
+  0xC0,      //  END COLLECTION
   0xC0,      //END COLLECTION
-
+          
   //  Controller 2
   0x05, 0x01,//USAGE_PAGE (Generic Desktop)
   0x09, 0x05,//USAGE (Game Pad)
   0xA1, 0x01,//COLLECTION (Application)
-  0xA1, 0x00,//    COLLECTION (Physical)
-  0x85, 0x02,//        REPORT_ID (2)
-  0x05, 0x09,//        USAGE_PAGE (Button)
-  0x19, 0x01,//  USAGE_MINIMUM(Button 1)
-  0x29, 0x10,//  USAGE_MAXIMUM(Button 16)
-  0x15, 0x00,//  LOGICAL_MINIMUM(0)
-  0x25, 0x01,//  LOGICAL_MAXIMUM(1)
-  0x95, 0x10,//  REPORT_COUNT(16)
-  0x75, 0x01,//  REPORT_SIZE(1)
-  0x81, 0x02,//  INPUT(Data,Var,Abs)
-  0xC0,      //    END COLLECTION
+  0xA1, 0x00,//  COLLECTION (Physical)
+  0x85, 0x02,//    Report ID (2)
+  0x05, 0x09,//    USAGE_PAGE (Button)
+  0x19, 0x01,//    USAGE_MINIMUM(Button 1)
+  0x29, 0x30,//    USAGE_MAXIMUM(Button 16)
+  0x15, 0x00,//    LOGICAL_MINIMUM(0)
+  0x25, 0x01,//    LOGICAL_MAXIMUM(1)
+  0x95, 0x10,//    REPORT_COUNT(16)
+  0x75, 0x01,//    REPORT_SIZE(1)
+  0x81, 0x02,//    INPUT(Data,Var,Abs)
+  0xC0,      //  END COLLECTION
   0xC0,      //END COLLECTION
 
   //  Controller 3
   0x05, 0x01,//USAGE_PAGE (Generic Desktop)
   0x09, 0x05,//USAGE (Game Pad)
   0xA1, 0x01,//COLLECTION (Application)
-  0xA1, 0x00,//    COLLECTION (Physical)
-  0x85, 0x03,//        REPORT_ID (3)
-  0x05, 0x09,//        USAGE_PAGE (Button)
-  0x19, 0x01,//  USAGE_MINIMUM(Button 1)
-  0x29, 0x10,//  USAGE_MAXIMUM(Button 16)
-  0x15, 0x00,//  LOGICAL_MINIMUM(0)
-  0x25, 0x01,//  LOGICAL_MAXIMUM(1)
-  0x95, 0x10,//  REPORT_COUNT(16)
-  0x75, 0x01,//  REPORT_SIZE(1)
-  0x81, 0x02,//  INPUT(Data,Var,Abs)
-  0xC0,              //    END COLLECTION
-  0xC0,              //END COLLECTION
+  0xA1, 0x00,//  COLLECTION (Physical)
+  0x85, 0x03,//    Report ID (3)
+  0x05, 0x09,//    USAGE_PAGE (Button)
+  0x19, 0x01,//    USAGE_MINIMUM(Button 1)
+  0x29, 0x10,//    USAGE_MAXIMUM(Button 16)
+  0x15, 0x00,//    LOGICAL_MINIMUM(0)
+  0x25, 0x01,//    LOGICAL_MAXIMUM(1)
+  0x95, 0x10,//    REPORT_COUNT(16)
+  0x75, 0x01,//    REPORT_SIZE(1)
+  0x81, 0x02,//    INPUT(Data,Var,Abs)
+  0xC0,      //  END COLLECTION
+  0xC0,      //END COLLECTION
 }
 };
 /** EOF usb_descriptors.c ***************************************************/

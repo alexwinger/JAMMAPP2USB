@@ -23,6 +23,5 @@ please contact mla_licensing@microchip.com
 #define FIXED_ADDRESS_MEMORY
 
 #define JOYSTICK_DATA_ADDRESS             0x500
-#define HID_CUSTOM_IN_DATA_BUFFER_ADDRESS 0x540
 
 #endif //FIXED_MEMORY_ADDRESS

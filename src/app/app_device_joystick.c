@@ -27,59 +27,14 @@ please contact mla_licensing@microchip.com
 #include "system.h"
 
 #include "app_led_usb_status.h"
-
+#include "fixed_address_memory.h"
+#include "jamma_buttons.h"
 #include "stdint.h"
 
 /** DECLARATIONS ***************************************************/
-//http://www.microsoft.com/whdc/archive/hidgame.mspx
-#define HAT_SWITCH_NORTH            0x0
-#define HAT_SWITCH_NORTH_EAST       0x1
-#define HAT_SWITCH_EAST             0x2
-#define HAT_SWITCH_SOUTH_EAST       0x3
-#define HAT_SWITCH_SOUTH            0x4
-#define HAT_SWITCH_SOUTH_WEST       0x5
-#define HAT_SWITCH_WEST             0x6
-#define HAT_SWITCH_NORTH_WEST       0x7
-#define HAT_SWITCH_NULL             0x8
+
 
 /** TYPE DEFINITIONS ************************************************/
-typedef union _PLAYER_CONTROL
-{
-    struct
-    {
-        uint8_t up:1;
-        uint8_t down:1;
-        uint8_t left:1;
-        uint8_t right:1;
-        uint8_t b1:1;
-        uint8_t b2:1;
-        uint8_t b3:1;
-        uint8_t b4:1;//
-        uint8_t b5:1;
-        uint8_t b6:1;
-        uint8_t select:1;
-        uint8_t start:1;
-        uint8_t :4;
-    } buttons;
-    uint8_t val[2];
-} PLAYER_CONTROL;
-
-typedef union _CABINET_BUTTONS
-{
-    struct
-    {
-        uint8_t coin:1;
-        uint8_t service:1;
-        uint8_t game_select:1;
-        uint8_t generic1:1;
-        uint8_t generic2:1;
-        uint8_t generic3:1;
-        uint8_t generic4:1;
-        uint8_t :1;
-    } buttons;
-    uint8_t val[2];
-} CABINET_BUTTONS;
-
 
 /** VARIABLES ******************************************************/
 /* Some processors have a limited range of RAM addresses where the USB module
@@ -87,31 +42,32 @@ typedef union _CABINET_BUTTONS
  * assigns the buffers that need to be used by the USB module into those
  * specific areas.
  */
+
+static uint8_t idx = 0;
+
+typedef union _HID_REPORT
+{
+    struct {
+        uint8_t rid;
+        uint16_t button_state;
+    }members;
+    
+    uint8_t raw[sizeof(struct members)];
+}HID_REPORT;
+
 #if defined(FIXED_ADDRESS_MEMORY)
     #if defined(COMPILER_MPLAB_C18)
         #pragma udata JOYSTICK_DATA=JOYSTICK_DATA_ADDRESS
-            INPUT_CONTROLS joystick_input;
+            HID_REPORT report;
         #pragma udata
     #elif defined(__XC8)
-        INPUT_CONTROLS joystick_input @ JOYSTICK_DATA_ADDRESS;
+        HID_REPORT report @ JOYSTICK_DATA_ADDRESS;
     #endif
 #else
-typedef union _BUTTONS_STATE
-{
-    struct
-    {
-        PLAYER_CONTROL joystick1;
-        PLAYER_CONTROL joystick2;
-        CABINET_BUTTONS cabinet;
-    } members;
-    uint8_t report[6];
-} BUTTONS_STATE;
+    HID_REPORT report;
 #endif
 
-volatile BUTTONS_STATE buttons_state;
 USB_VOLATILE USB_HANDLE lastTransmission = 0;
-volatile uint16_t contador;
-
 
 /*********************************************************************
 * Function: void APP_DeviceJoystickInitialize(void);
@@ -130,32 +86,9 @@ void APP_DeviceJoystickInitialize(void)
     //initialize the variable holding the handle for the last
     // transmission
     lastTransmission = 0;
-    buttons_state.members.joystick1.val[0] = 255;
-    buttons_state.members.joystick2.val[0] = 1;
-    buttons_state.members.cabinet.val[0] = 1;
-    contador = 0;
-
     //enable the HID endpoint
     USBEnableEndpoint(JOYSTICK_EP,USB_IN_ENABLED|USB_HANDSHAKE_ENABLED|USB_DISALLOW_SETUP);
 }//end UserInit
-
-
-void update_joysticks() {
-    contador++;
-    if( contador >= 2) {
-        buttons_state.members.joystick1.val[0]++;
-        buttons_state.members.joystick1.val[1]--;
-        
-        buttons_state.members.joystick2.val[0]++;
-        buttons_state.members.joystick2.val[1]--;
-        
-        
-        buttons_state.members.cabinet.val[0]++;
-        
-        contador = 0;
-    }
-}
-
 
 /*********************************************************************
 * Function: void APP_DeviceJoystickTasks(void);
@@ -171,10 +104,8 @@ void update_joysticks() {
 * Output: None
 *
 ********************************************************************/
-void APP_DeviceJoystickTasks(void)
-{  
-    
-    //update_joysticks();
+void APP_DeviceJoystickTasks()
+{
     /* If the USB device isn't configured yet, we can't really do anything
      * else since we don't have a host to talk to.  So jump back to the
      * top of the while loop. */
@@ -194,12 +125,18 @@ void APP_DeviceJoystickTasks(void)
         return;
     }
 
-    //If the last transmission is complete
     if(!HIDTxHandleBusy(lastTransmission))
     {
-        lastTransmission = HIDTxPacket(JOYSTICK_EP, (uint8_t*)&buttons_state, 6);
+        report.members.rid = idx + 1;
+        report.members.button_state = getButtons(idx);
+        lastTransmission = HIDTxPacket(JOYSTICK_EP, report.raw, sizeof(report.raw));
+        idx++;
+        
+        if(idx >= 3)
+        {
+            idx=0;
+        }
     }
-    
 }//end ProcessIO
 
 #endif
