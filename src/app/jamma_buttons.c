@@ -28,6 +28,9 @@
 
 
 /** TYPE DEFINITIONS ************************************************/
+uint8_t updateBtns[3];
+
+
 typedef union _PLAYER_CONTROL
 {
     struct
@@ -90,6 +93,7 @@ static void setupButtons(void) {
     CLKDIR   = 0;
     SAVEDIR  = 0;
     idleOutputs();
+    updateBtns[0]=updateBtns[1]=updateBtns[2];
     jammasm = INITIALIZED;
 }
 
@@ -100,6 +104,25 @@ static void saveButtons(){
     bitcounter=0;
     jammasm = BUTTONSSAVED;
 }
+
+void clearUpdateButtons(uint8_t controlIdx){
+
+    if(controlIdx>0 && controlIdx <3){
+        updateBtns[controlIdx] = 0;
+    }
+}
+
+
+uint16_t updateButtons(uint8_t controlIdx){
+    uint16_t ret=0;
+    
+    if(controlIdx>0 && controlIdx <3){
+        ret = updateBtns[controlIdx];
+    }
+    
+    return ret;
+}
+
 
 
 uint16_t getButtons(uint8_t controlIdx){
@@ -132,9 +155,22 @@ static void readData()
     
     if(bitcounter >= 16) {
         jammasm = INITIALIZED;
-        joystick1.val = buffer[0];
-        joystick2.val = buffer[1];
-        cabinet.val   = buffer[2];
+        
+        if(buffer[0] != joystick1.val){
+            updateBtns[0]=1;
+            joystick1.val = buffer[0];
+        }
+        
+        if(buffer[1] != joystick2.val){
+            updateBtns[1]=1;
+            joystick2.val = buffer[1];
+        }
+        
+        if(buffer[2] != cabinet.val){
+            updateBtns[2]=1;
+            cabinet.val   = buffer[2];
+        }
+        
         APP_DeviceJoystickTasks(buffer);
         
     } else {

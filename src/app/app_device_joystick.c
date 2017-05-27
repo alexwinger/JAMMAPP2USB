@@ -127,9 +127,18 @@ void APP_DeviceJoystickTasks()
 
     if(!HIDTxHandleBusy(lastTransmission))
     {
-        report.members.rid = idx + 1;
-        report.members.button_state = getButtons(idx);
-        lastTransmission = HIDTxPacket(JOYSTICK_EP, report.raw, sizeof(report.raw));
+        if(updateButtons(idx)){
+            report.members.rid = idx + 1;
+            report.members.button_state = getButtons(idx);
+            lastTransmission = HIDTxPacket(JOYSTICK_EP, report.raw, 3);
+            clearUpdateButtons(idx);
+        }
+        else {
+            report.members.rid = idx + 1;
+            report.members.button_state = 0x5555;
+           // lastTransmission = HIDTxPacket(JOYSTICK_EP, report.raw, sizeof(report.raw));
+        }
+
         idx++;
         
         if(idx >= 3)

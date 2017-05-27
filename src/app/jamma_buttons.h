@@ -71,6 +71,8 @@ extern "C" {
     // linkage so the functions can be used by the c code. 
 void jammaTask();
 uint16_t getButtons(uint8_t controlIdx);
+uint16_t updateButtons(uint8_t controlIdx);
+void clearUpdateButtons(uint8_t controlIdx);
 #ifdef	__cplusplus
 }
 #endif /* __cplusplus */
